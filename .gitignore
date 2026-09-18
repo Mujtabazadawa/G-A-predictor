@@ -1,0 +1,7 @@
+# Data stays local (the instructions say it isn't committed)
+data/*.csv
+
+# Python / Jupyter
+.venv/
+__pycache__/
+.ipynb_checkpoints/
