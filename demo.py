@@ -50,7 +50,6 @@ def build_predictions():
     enough_games = df["appearances"] >= 5
     players = df[played & outfield & enough_games].copy()
     players[NUMERIC_FEATURES] = players[NUMERIC_FEATURES].fillna(0)
-    players["xg_xa"] = players["expectedGoals"].fillna(0) + players["expectedAssists"].fillna(0)
 
     model = Pipeline([
         ("preprocess", ColumnTransformer([
@@ -77,13 +76,12 @@ def show(row):
     # Whole numbers only: you can't score 12.3 goals + assists
     actual = int(row[TARGET])
     predicted = int(round(row["predicted"]))
-    diff = actual - predicted
-    verdict = "more than" if diff > 0 else "fewer than" if diff < 0 else "the same as"
+    gap = actual - predicted
+    verdict = "more than" if gap > 0 else "fewer than" if gap < 0 else "the same as"
     print(f"\n  {row['player_name']} ({row['team_name']}, {row['position']})")
     print(f"  Actual G+A:     {actual}  (goals {int(row['goals'])}, assists {int(row['assists'])})")
     print(f"  Predicted G+A:  {predicted}")
-    print(f"  xG + xA:        {round(row['xg_xa'])}  (provider benchmark)")
-    print(f"  Difference:     {diff:+d}  -> {verdict} the model expected\n")
+    print(f"  Luck gap:       {gap:+d}  -> {verdict} the model expected\n")
 
 
 def main():

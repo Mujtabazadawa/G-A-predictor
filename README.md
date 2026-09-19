@@ -89,15 +89,14 @@ Then open `notebooks/ga_predictor.ipynb` with the `.venv` kernel and choose **Ru
 python demo.py
 ```
 
-Type a player's name, or part of it. Accents are optional, so `gyokeres` finds Gyökeres. The demo shows that player's actual G+A, the Ridge model's predicted G+A and the xG + xA benchmark:
+Type a player's name, or part of it. Accents are optional, so `gyokeres` finds Gyökeres. The demo shows that player's actual G+A and the Ridge model's predicted G+A:
 
 ```
 Player: saka
   Bukayo Saka (Arsenal, F)
   Actual G+A:     12  (goals 7, assists 5)
   Predicted G+A:  15
-  xG + xA:        15  (provider benchmark)
-  Difference:     -3  -> fewer than the model expected
+  Luck gap:       -3  -> fewer than the model expected
 ```
 
 The predictions are the same out-of-fold predictions as in the notebook, so each player is predicted by a model that never saw them. Players the model doesn't cover (goalkeepers, or fewer than 5 appearances) get a message saying why.
