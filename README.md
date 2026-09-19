@@ -16,7 +16,7 @@ Can a player's season goals + assists be predicted from how much they shoot and 
 | Random Forest | 2.29 ± 0.77 | 0.40 |
 | Gradient Boosting | 2.51 ± 0.92 | 0.43 |
 
-**Ridge was chosen.** Plain Linear Regression scored almost the same (0.01 lower MAE, well within one fold-std), but without Ridge's penalty the overlapping shooting stats pull against each other: it gives shots on target a *negative* weight to offset a large weight on total shots. Ridge is just as accurate, and its coefficients make sense. With only 55 players, the tree models don't have enough data to learn reliable non-linear patterns, so they overfit. G+A grows roughly in line with shots and chances created, which is exactly what a linear model assumes.
+**Ridge was chosen.** Plain Linear Regression scored almost the same (0.01 lower MAE, well within one fold-std), but without Ridge's penalty the overlapping shooting stats pull against each other: it gives shots on target a *negative* weight to offset a large weight on total shots. Ridge is just as accurate, and its coefficients make sense. Random Forest is technically within one fold-std too, but it's the more complex model, so the tie-break still favours Ridge. With only 55 players, the tree models don't have enough data to learn reliable non-linear patterns, so they mostly add variance. G+A grows roughly in line with shots and chances created, which is exactly what a linear model assumes.
 
 The provider's xG + xA is still more accurate, because it's built from shot-level data (location, angle, shot type) that isn't in the season-total stats used here.
 
@@ -57,7 +57,7 @@ The notebook asserts that none of these are in the feature list.
 1. Clean the data: drop players with no stats, goalkeepers, and players with fewer than 5 appearances. Fill missing counts with 0.
 2. Build a scikit-learn `Pipeline`: `ColumnTransformer` (`StandardScaler` for numeric features, `OneHotEncoder` for position), then the model. The pipeline stops test data from leaking into preprocessing.
 3. Evaluate with 5-fold shuffled cross-validation (`random_state=42`), clipping predictions at 0. A single 80/20 split was also run, but its 11 test players had too little spread in G+A for R² to mean much, so CV MAE is the main metric.
-4. Choose the model with the lowest CV MAE. If two are within one fold-std, choose the simpler one.
+4. Choose the model with the lowest CV MAE. If two are within one fold-std, choose the simpler one, or the one with stable, readable coefficients.
 
 ## Limitations
 
@@ -81,7 +81,7 @@ python -m venv .venv
 pip install -r requirements.txt
 ```
 
-Then open `notebooks/ga_predictor.ipynb` with the `.venv` kernel and choose **Run All**. The chart is saved to `outputs/`.
+Then open `notebooks/ga_predictor.ipynb` with the `.venv` kernel and choose **Run All**. The charts are saved to `outputs/` (`predicted_vs_actual.png` and `luck_gap.png`).
 
 ### Demo: look up a player
 
