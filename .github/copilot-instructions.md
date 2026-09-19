@@ -88,4 +88,6 @@ Second season for the persistence test, hyperparameter tuning, SHAP feature impo
 ## Current status
 Day 1 done (see `PLAN.md`): data loaded and cleaned (55 players), leakage columns removed (extra ones added in the notebook), xG+xA benchmark computed (R² 0.89 / MAE 1.58 on all players), Ridge baseline fitted, 5-fold CV added because the single 80/20 test set has too little spread to judge R² on.
 Day 2 done: Ridge, Random Forest and Gradient Boosting compared on 5-fold CV MAE (1.89 / 2.29 / 2.51 vs benchmark 1.58). **Ridge chosen.** Out-of-fold predicted-vs-actual plot saved to `outputs/predicted_vs_actual.png`, per-player table and README written.
-Next (optional): luck-gap chart, second-season persistence test, tuning, SHAP.
+Linear Regression added as a fourth model: ties Ridge on CV MAE (1.88) but has unstable coefficients, so Ridge stays chosen.
+Luck gap done (notebook section 15): top 10 over/under-performers, `outputs/luck_gap.png`, sanity checks (penalty takers +5.2 vs −0.1, Ridge gap vs xG+xA gap corr 0.87).
+Next (optional): second-season persistence test, tuning, SHAP.

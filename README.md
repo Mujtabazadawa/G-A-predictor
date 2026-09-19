@@ -20,9 +20,19 @@ Can a player's season goals + assists be predicted from how much they shoot and 
 
 The provider's xG + xA is still more accurate, because it's built from shot-level data (location, angle, shot type) that isn't in the season-total stats used here.
 
-**Notable players**
-- **Over-performers:** the four biggest (Haaland, Bruno Fernandes, Semenyo, Cherki) are also the four highest scorers. Part of that is penalties and elite finishing. Part of it is Ridge pulling extreme predictions toward the average.
-- **Biggest under-performer:** Amad Diallo, with 5 G+A against about 13 predicted (xG + xA: about 10).
+## The luck gap
+
+`gap = actual G+A − predicted G+A`, using the out-of-fold Ridge predictions. A positive gap means a player produced more than their shots and chances suggest (clinical, lucky, or taking penalties). A negative gap means they produced less (wasteful or unlucky).
+
+![Luck gap: top 10 over- and under-performers](outputs/luck_gap.png)
+
+- **Penalties explain a lot of it.** The five penalty takers average +5.2 G+A above prediction, against −0.1 for everyone else. Haaland, Bruno Fernandes and Semenyo, the top three over-performers, all take penalties.
+- **It isn't just the model.** The Ridge gap correlates 0.87 with the gap against the provider's xG + xA, so two very different predictors mostly agree on who over- and under-performed. Doku is the main exception: Ridge expected more from his shot volume, but xG + xA says he slightly beat the quality of his chances.
+- **Assists matter more than finishing.** The top 10 over-performers beat their xA by more than their xG. Bruno Fernandes is about 8.7 assists above his xA but 1.8 goals below his xG, so his over-performance comes from teammates finishing his chances.
+- **Biggest under-performer:** Amad Diallo, with 5 G+A against about 13 predicted. He's below both his xG and his xA.
+- **Part of the gap is the model:** the gap rises with the prediction (correlation 0.31), so Ridge under-predicts the highest-volume players.
+
+The gap mixes luck, finishing skill, penalties and teammates, and one season can't separate them.
 
 ## Data
 
@@ -58,7 +68,7 @@ The notebook asserts that none of these are in the feature list.
 
 ## Next steps
 
-- Luck-gap analysis, plus a second season to test whether over-performance persists.
+- A second season to test the luck gap: skill should persist from one season to the next, luck shouldn't.
 - More teams.
 - Hyperparameter tuning.
 - SHAP feature importance.
