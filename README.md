@@ -1,4 +1,5 @@
 # G+A Predictor: Premier League 2025-26, Predicted vs Actual
+https://youtu.be/6Y_IaZMI2nQ (demonstration video)
 
 Can a player's season goals + assists be predicted from how much they shoot and create? This project trains four models on 2025-26 Premier League player stats, chooses the best one using cross-validation, and compares its predictions with what actually happened. It also compares them with the data provider's expected goals + expected assists (xG + xA).
 
